@@ -1,0 +1,60 @@
+#include <vcl.h>
+#pragma hdrstop
+#pragma argsused
+#pragma once
+#include "init.h"
+#include "Street.h"
+#include "Apartment.h"
+#include "Home.h"
+#include "ApartmentList.h"
+#include "HomeList.h"
+
+ApartmentList apartments;
+HomeList Homes;
+
+int main(int argc, char* argv[])
+{
+    //////демонстрация работы классов////////////////////////////////
+    char str[50];
+    //ввод и вывод данных здания с квартирами
+    Home *Home1 = new Home; // выделение памяти под переменную класса Дом
+    Home1->setNumber(12);   //задание значений
+    Home1->setNumberOfStories(11); //
+    for(int i=0;i<2;i++){     //заполнение массива квартир
+     Apartment *apart = new Apartment; // выделение памяти под переменную класса Квартира
+     apart->setNumApartment(i); //заполнение
+     apart->setCountPeopleApartment(i);
+     apart->setAreaApartment(25.5);
+     apart->setPayApartment(1254);
+     Home1->addApartment(i,*apart);//добавление объектов в массив
+    }
+    std::cout << *Home1;
+    //ввод и вывод данных улиц с домами
+        Street *S1 = new Street; // создание через оператора new
+    S1->setName("Lenina");
+    for(int i=0;i<2;i++){
+      S1->addHome2(i,*Home1);//добавление домов
+    }
+    std::cout << *S1 << "\n";
+
+    S1->delHome(Homes.getSize()); //удаляем последний дом
+    cout << "delete last home on this street";
+    cout << *S1 << "\n";      //печатаем улицу
+
+    ////////////////////////////////////////////////////////////////////
+    cout << "Enter Name for the new street" << "\n";   //ввод данных с клавиатуры
+    cin >> str;
+    Street S2 = Street(str);       //построение объекта через конструктор
+    cout << S2 << "\n" ;            //вывод на экран
+    Street S3 = *S1;
+    cout <<"\n" << "new street S3" << "\n";
+    cout << *S1 << "\n\n" ;            //вывод на экран
+    *S1 + S3;                 //перегрузка оператора сложения
+    cout << "overloading S1 + S3" << "\n";
+    cout << *S1 << "\n" ;            //вывод на экран
+    getch();
+    delete Home1;
+    delete S1;
+    return 0;
+}
+//---------------------------------------------------------------------------
