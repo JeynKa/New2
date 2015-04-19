@@ -1,0 +1,47 @@
+#include "Home.h"
+#include "Init.h"
+//Методы класса Home
+  Home::Home(){};
+  Home::Home(int number,int numberOfStories){};
+  Home::~Home(){};
+  int Home::getNumber() { return number; }
+  int Home::getNumberOfStories() { return numberOfStories; }
+  void Home::setNumber(int number) {
+    this->number = number;
+  }
+  void Home::setNumberOfStories(int numberOfStories) {
+    this->numberOfStories = numberOfStories;
+  }
+  unsigned int Home::getNumberOfApartments() { return apartments.getSize(); }
+
+ Apartment Home::getApartment(unsigned int position) {
+    return apartments[position];
+  }
+  void Home::addApartment(const Apartment &apartment) {
+    apartments.insert(apartments.getSize(), apartment);
+  }
+  void Home::addApartment(unsigned int position, const Apartment &apartment) {
+    apartments.insert(position, apartment);
+  }
+  unsigned int Home::getNumberOfPeople()  {  //Получить число жителей дома
+    unsigned int result = 0;
+    for (unsigned int i = 0; i < getNumberOfApartments(); ++i) {
+      result += getApartment(i).CountPeopleApartment;
+    }
+    return result;
+  }
+  float Home::getPayOfApartments() {
+  float result = 0;              
+    for (unsigned int i = 0; i < getNumberOfApartments(); ++i) {
+      result += getApartment(i).PayApartment;
+    }
+    return result;
+  }
+  ostream &operator<<(ostream &stream, Home &Home) {
+  return stream << "Home{" <<
+    "number=" << Home.getNumber() << "\n" <<
+    "numberOfStories=" << Home.getNumberOfStories() << "\n" <<
+    "NumberOfPeople=" << Home.getNumberOfPeople() << "\n" <<
+    "PaymentOfHome=" << Home.getPayOfApartments() << "\n" <<
+    "}";
+  }
