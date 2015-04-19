@@ -1,0 +1,65 @@
+#include "Street.h"
+#include "init.h"
+//методы класса Street
+  Street::Street() {
+    name[0] = '\0';
+  }
+  Street::Street(const char *name) {
+    strcpy(this->name, name);
+  }
+  Street::~Street() {}
+  void Street::setName(const char *name) {
+  strcpy(this->name, name);
+  }
+  char Street::getName(){return *name;}
+  unsigned int Street::getNumberOfHomes() { return Homes.getSize(); }
+
+  Home Street::getHome(unsigned int position) {
+    return Homes[position];
+  }
+  void Street::addHome1(const Home &Home) {
+    Homes.insert(Homes.getSize(), Home);
+  }
+  void Street::addHome2(unsigned int position, const Home &Home) {
+    Homes.insert(position, Home);
+  }
+  void Street::delHome (unsigned int position) {
+      Homes.remove(position);
+  }
+  unsigned int Street::getNumberOfSouls() {
+    unsigned int result = 0;
+    for (unsigned int i = 0; i < getNumberOfHomes(); ++i) {
+      result += getHome(i).getNumberOfPeople();
+    }
+    return result;
+  }
+  unsigned int Street::getNumberOfApartments() {
+    unsigned int result = 0;
+    for (unsigned int i = 0; i < getNumberOfHomes(); ++i) {
+      result += getHome(i).getNumberOfApartments();
+    }
+    return result;
+  }
+
+  void Street::operator +(Street &Street){//перегружаем оператор =
+  for(unsigned int i=0;i<Street.Homes.getSize();i++){
+   Homes.insert(Homes.getSize(),Street.getHome(i));  }
+  }
+  ostream &operator<<(std::ostream &stream, Street &street) {
+  stream << "Street{" <<
+    "name='" << street.name << "'\n" <<
+    "numberOfApartments=" << street.getNumberOfApartments() << "\n" <<
+    "numberOfSouls=" << street.getNumberOfSouls() << "\n" <<
+    "numberOfHomes=" << street.getNumberOfHomes() << " \n   " <<
+    "Homes=[";
+  if (street.getNumberOfHomes() > 0) {
+    for (unsigned int i = 0; i < street.getNumberOfHomes(); ++i) {
+      stream << std::endl << " " << &street.getHome(i);
+      if (i + 1 < street.getNumberOfHomes()) {
+        stream << ",";
+      }
+    }
+  }
+  return stream << "]}";
+}
+
